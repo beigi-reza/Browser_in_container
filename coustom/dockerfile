@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    wget curl tar python3 x11vnc xvfb fluxbox openbox libgtk-3-0
+
+# Install NoVNC
+WORKDIR /opt
+RUN wget -q https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.tar.gz -O noVNC.tar.gz && \
+    tar -xzf noVNC.tar.gz && mv noVNC-1.4.0 noVNC && \
+    wget -q https://github.com/novnc/websockify/archive/refs/tags/v0.10.0.tar.gz -O websockify.tar.gz && \
+    tar -xzf websockify.tar.gz && mv websockify-0.10.0 noVNC/utils/websockify
+    #chmod +x /opt/noVNC/utils/launch.sh
+
+# Expose ports
+EXPOSE 5900 8080
+
+# Start Xvfb, x11vnc, and NoVNC
+CMD Xvfb :1 -screen 0 1920x1080x24 & \
+    x11vnc -display :1 -forever -nopw -listen 0.0.0.0 -xkb & \
+    /opt/noVNC/utils/run --vnc localhost:5900 --listen 8080

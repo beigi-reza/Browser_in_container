@@ -1,0 +1,17 @@
+version: "3.9"  
+services:
+  edge:
+    container_name: edge
+    image: kasmweb/edge:1.16.0
+    volumes:
+      - UserProfile_edge:/home/kasm-user
+    ports:
+      - 6901:6901
+    environment:
+      - VNC_PW=pl123456
+      
+    shm_size: "512m" # Important for shared memory
+
+volumes:
+  UserProfile_edge: {}
+  

@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    apt-get install -y \
+    firefox \
+    xvfb \
+    x11vnc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up a non-root user (important for security)
+RUN useradd -ms /bin/bash firefoxuser
+USER firefoxuser
+ENV HOME /home/firefoxuser
+
+# Set up Xvfb (virtual X server)
+RUN Xvfb :1 -screen 0 1024x768x24 &
+
+# Set up x11vnc (VNC server) - no password for simplicity in this example - DO NOT DO THIS IN PRODUCTION
+RUN x11vnc -display :1 -forever -shared -nopw &
+
+# Start Firefox
+CMD ["firefox"]

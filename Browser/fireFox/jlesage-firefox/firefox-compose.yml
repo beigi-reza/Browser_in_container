@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+  FireFox:
+    container_name: FireFox    
+    image: jlesage/firefox
+    ports:
+      - 5800:5800 # noVNC web port
+      - 5900:5900 # VNC port (optional, for direct VNC clients)
+    volumes:
+      - ./config:/config

@@ -1,0 +1,17 @@
+version: "3.9"  
+services:
+  telegram:
+    container_name: telegram
+    image: kasmweb/telegram:1.16.0
+    volumes:
+      - UserProfile_telegram:/home/kasm-user
+    ports:
+      - 6901:6901
+    environment:
+      - VNC_PW=pl123456
+      
+    shm_size: "512m" # Important for shared memory
+
+volumes:
+  UserProfile_telegram: {}
+  

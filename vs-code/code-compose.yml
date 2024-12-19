@@ -1,0 +1,17 @@
+version: "3.9"  
+services:
+  vs-code:
+    container_name: vs-code
+    image: kasmweb/vs-code:1.16.0
+    volumes:
+      - UserProfile_code:/home/kasm-user
+    ports:
+      - 6901:6901
+    environment:
+      - VNC_PW=pl123456
+      
+    shm_size: "512m" # Important for shared memory
+
+volumes:
+  UserProfile_code: {}
+  

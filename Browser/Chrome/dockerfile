@@ -1,0 +1,25 @@
+FROM kasmweb/chrome:1.16.0
+
+# Remove the existing kasm_user (optional, but recommended for clean up)
+#RUN userdel -r kasm_user
+
+# Create a new user with your desired username and UID/GID
+ARG NEW_USERNAME=admin
+ARG NEW_UID=1002
+ARG NEW_GID=1002
+
+RUN groupadd -g ${NEW_GID} ${NEW_USERNAME}
+RUN useradd -u ${NEW_UID} -g ${NEW_GID} -ms /bin/bash ${NEW_USERNAME}
+
+# Set the new user as the default user
+USER ${NEW_USERNAME}
+
+# Optional: Set a default password for the new user (less secure, use with caution)
+RUN echo "${NEW_USERNAME}:admin123456" | chpasswd
+
+# Optional: Copy over any necessary configuration files or directories
+# COPY --chown=${NEW_USERNAME}:${NEW_USERNAME} ./my_config_files /home/${NEW_USERNAME}/
+
+# Optional: Install additional packages or make other modifications
+
+#CMD ["/usr/local/bin/kasm_start"]
